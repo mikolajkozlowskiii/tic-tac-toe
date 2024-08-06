@@ -5,14 +5,14 @@ services:
     ports:
       - 8080:8080
     networks:
-      - test-network
+      - my-network
   frontend:
     build: ./frontend
     ports:
       - 8081:8081
     networks:
-      - test-network
+      - my-network
 
 networks:
-  test-network:
+  my-network:
     driver: bridge
