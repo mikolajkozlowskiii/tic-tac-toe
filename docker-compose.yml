@@ -4,7 +4,15 @@ services:
     build: ./backend
     ports:
       - 8080:8080
+    networks:
+      - test-network
   frontend:
     build: ./frontend
     ports:
       - 8081:8081
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge

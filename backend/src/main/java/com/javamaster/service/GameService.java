@@ -64,10 +64,9 @@ public class GameService {
         }
     }
 
-    private Game addSecondPlayerToGame(Player player2, Game game) {
+    private void addSecondPlayerToGame(Player player2, Game game) {
         game.setPlayer2(player2);
         game.setStatus(IN_PROGRESS);
-        return game;
     }
 
     public Game connectToRandomGame(Player player2) throws NotFoundException {
@@ -102,8 +101,8 @@ public class GameService {
         int[][] board = game.getBoard();
         board[gamePlay.getCoordinateX()][gamePlay.getCoordinateY()] = gamePlay.getType().getValue();
 
-        Boolean xWinner = checkWinner(game.getBoard(), TicToe.X);
-        Boolean oWinner = checkWinner(game.getBoard(), TicToe.O);
+        boolean xWinner = checkWinner(game.getBoard(), TicToe.X);
+        boolean oWinner = checkWinner(game.getBoard(), TicToe.O);
 
         if (xWinner) {
             game.setWinner(TicToe.X);
@@ -119,7 +118,6 @@ public class GameService {
     }
 
     private void checkDoesGameExists(String gameId) throws NotFoundException {
-        System.out.println(gameId);
         if (!GameStorage.getInstance().getGames().containsKey(gameId)) {
             throw new NotFoundException("Game not found " + gameId);
         }
@@ -128,18 +126,18 @@ public class GameService {
     private Boolean checkWinner(int[][] board, TicToe ticToe) {
         int[] boardArray = new int[9];
         int counterIndex = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                boardArray[counterIndex] = board[i][j];
+        for (int[] ints : board) {
+            for (int anInt : ints) {
+                boardArray[counterIndex] = anInt;
                 counterIndex++;
             }
         }
 
         int[][] winCombinations = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
-        for (int i = 0; i < winCombinations.length; i++) {
+        for (int[] winCombination : winCombinations) {
             int counter = 0;
-            for (int j = 0; j < winCombinations[i].length; j++) {
-                if (boardArray[winCombinations[i][j]] == ticToe.getValue()) {
+            for (int i : winCombination) {
+                if (boardArray[i] == ticToe.getValue()) {
                     counter++;
                     if (counter == 3) {
                         return true;

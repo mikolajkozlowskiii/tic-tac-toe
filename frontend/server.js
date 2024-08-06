@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.static('public'));
 
-const targetAddress = process.env.PROXY_TARGET || 'http://host.docker.internal:8080';
+const targetAddress = process.env.PROXY_TARGET || 'http://backend:8080';
 
 app.use('/game', createProxyMiddleware({ 
   target: targetAddress, 
